@@ -3,7 +3,7 @@
 ## Index
 
 1. [Introduction to AWS Cloud](Introduction-to-AWS-Cloud.md)
-2. [AWS Indentity & Access Management]()
+2. [Indentity & Access Management](Indentity-&-Access-Management.md)
 
 .
 .
