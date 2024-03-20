@@ -283,6 +283,78 @@ aws configure --profile <profile name>
 
 ![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/8896b55a-482f-4393-b91c-0de583e7fefa)
 
+### Privilege Escalation
+
+Here, we have access to a user in AWS environment and the user have permissions to `Put User Policy` which allows him to change inline policy of himself or any other user. Which we can use to assign `Administrator Policy` to ourselves. Giving us full administrator privilege.
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/1c8ba12b-e6c8-4afe-bfd1-2850c47b5acf)
+
+- Lists all managed policies that are attached to the specified IAM user :
+
+```
+aws iam list-attached-user-policies --user-name <user name>
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/2f854a4f-35ff-4d8f-b8ac-3acfa1276af7)
+
+- Retrieves information about the specified managed policy :
+
+```
+aws iam get-policy --policy-arn <policy arn>
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/16654d81-4373-40a0-956f-2c49b1637a0e)
+
+- Lists information about the versions of the specified managed policy :
+
+```
+aws iam list-policy-versions --policy-arn <policy arn>
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/6ede02dd-a000-4ecd-8349-62f845677aa8)
+
+- Retrieves information about the specified version of the specified managed policy :
+
+```
+aws iam get-policy-version --policy-arn <policy arn> --version-id <version id>
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/48a7817a-6ed6-471d-a8d7-60036314234a)
+
+- Add an inline policy document that is embedded in the specified IAM user :
+
+```
+aws iam put-user-policy --user-name <user name> --policy-name <policy name> --policy-document file://<path to .json file>
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/ea7fe1be-8ef8-4964-8335-8acfe2ae4d4a)
+
+We first create our own policy and save it with extension `.json`. And then follow the command to attach it to the specified user with our own defined policy name.
+
+- Lists the names of the inline policies embedded in the specified IAM user :
+
+```
+aws iam list-user-policies --user-name <user name>
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/16da3556-f71b-49a5-a07d-0852925d6d3c)
+
+|S.No.|Privilege Escalation Methods|Required permission|
+|---|---|---|
+|1|Attaching a policy to a user|iam:AttachUserPolicy|
+|2|Attaching a policy to a group|iam:AttachGroupPolicy|
+|3|Attaching a policy to a role|iam:AttachRolePolicy|
+|4|Creating a new user access key|iam:CreateAccessKey|
+|5|Creating a new login profile|iam:CreateLoginProfile|
+|6|Updating an existing login profile|iam:UpdateLoginProfile|
+|7|Creating an EC2 instance with an existing instance profile|iam:PassRole / ec2:RunInstances|
+|8|Creating/updating an inline policy for a user|iam:PutUserPolicy|
+|9|Creating/updating an inline policy for a group|iam:PutGroupPolicy|
+|10|Creating/updating an inline policy for a role|iam:PutRolePolicy|
+|11|Adding a user to a group|iam:AddUserToGroup|
+|12|Updating the AssumeRolePolicyDocument of a role|iam:UpdateAssumeRolePolicy / sts:AssumeRole|
+|13|Passing a role to a new Lambda function, then invoking it|iam:PassRole / lambda:CreateFunction / lambda:InvokeFunction|
+|14|Updating the code of an existing Lambda function|lambda:UpdateFunctionCode|
 
 
 
