@@ -356,24 +356,122 @@ aws iam list-user-policies --user-name <user name>
 |13|Passing a role to a new Lambda function, then invoking it|iam:PassRole / lambda:CreateFunction / lambda:InvokeFunction|
 |14|Updating the code of an existing Lambda function|lambda:UpdateFunctionCode|
 
+### Credential Access
 
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/d61bd07f-808b-4bfa-b795-8bb44725fcbf)
 
+Lets start explaining how the diagram above was achieved in first place.
 
+- Lists all managed policies that are attached to the specified IAM user :
 
+```
+aws iam list-attached-user-policies --user-name <user name>
+```
 
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/02256f49-24d5-4aa4-be14-9e1f3d136910)
 
+- Retrieves information about the specified managed policy :
 
+```
+aws iam get-policy --policy-arn <policy arn>
+```
 
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/75b4dfe9-026f-41d1-be4f-b6e0655a5609)
 
+- Lists information about the versions of the specified managed policy :
 
+```
+aws iam list-policy-versions --policy-arn <policy arn>
+```
 
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/4a6c516e-f0f9-475d-98d3-0177bd92ebeb)
 
+- Retrieves information about the specified version of the specified managed policy :
 
+```
+aws iam get-policy-version --policy-arn <policy arn> --version-id <version id>
+```
 
-.
-.
-.
-.
-.
-.
-_In progress..._
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/24f53dc3-9ea3-483f-b6ae-7f22a87fbe44)
+
+Now when we have a user who can assume role of any other user we have to verify that user who's role our initial user wants to access role of has specified in its permissions that our original user can access its role. Which means there should be a trust relationship between them.
+
+- List of IAM Roles:
+
+```
+aws iam list-roles
+```
+
+> Note: the grep command can be used while listing roles to look for our original user's ARN.
+
+- Retrieves trust relation between role and user :
+
+```
+aws2 iam get-role --role-name <role name>
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/b3f3fd20-2acc-4003-80ea-dab09fe72d7a)
+
+- Lists all managed policies that are attached to the specified IAM role :
+
+```
+aws iam list-attached-role-policies --role-name <role name>
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/eac88ba8-6db3-4fa3-bb78-5a4089dc12c7)
+
+- Retrieves information about the specified version of the specified managed policy :
+
+```
+aws iam get-policy-version --policy-arn <policy arn> --version-id <version id>
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/2dd93d42-20b4-44aa-9028-d68832a440c7)
+
+Now as we has established there is trust connection between both the users. We can start obtaining credentials as shown in the diagram.
+
+- Retrieves temporary security credentials of assumed role :
+
+```
+aws sts assume-role --role-arn <role arn> --role-session-name <session name>
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/e39bb3e7-fb0c-49d2-836d-d95f81e1858f)
+
+- Configure security credential for AWS cli :
+
+> Note: These commands are for Linux if you wanna use Windows `set` command be used instead of `export`.
+
+```
+export AWS_ACCESS_KEY_ID
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/d9c5167e-a23d-41d0-bc3d-c565d4dbafa9)
+
+```
+export AWS_SECRET_ACCESS_KEY
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/25bec7c1-c516-4b92-8e72-8015dfbd2dd4)
+
+```
+export AWS_SESSION_TOKEN
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/5c41b31d-5167-48ba-845b-17d200a1f53d)
+
+- Retrieves information about temporary credential :
+
+```
+aws sts get-caller-identity
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/74391544-7b9f-493f-a86f-6ae1a41a5354)
+
+## Let's Connect
+
+I welcome your insights, feedback, and opportunities for collaboration. Together, we can make the digital world safer, one challenge at a time.
+
+- **LinkedIn**: (https://www.linkedin.com/in/aashwadhaama/)
+
+I look forward to connecting with fellow cybersecurity enthusiasts and professionals to share knowledge and work together towards a more secure digital environment.
