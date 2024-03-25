@@ -4,6 +4,7 @@
 
 1. [Introduction to AWS Cloud](Introduction-to-AWS-Cloud.md)
 2. [Indentity & Access Management](Indentity-&-Access-Management.md)
+3. [Virtual Private Cloud](Virtual-Private-Cloud.md)
 
 .
 .
