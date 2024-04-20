@@ -56,6 +56,110 @@ A network access control list (ACL) allows or denies specific inbound or outboun
 
 ![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/84db2894-7c56-4f66-820e-6219d8c9c455)
 
+## Exploitation
+
+### Enumeration
+
+- Describe about VPCs :
+ 
+> There is at least a read only access required for bellow command and we can also define the region by adding the `--region us-west-1`. 
+
+```
+aws ec2 describe-vpcs
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/14b15bfe-9471-44e5-8c57-a9294b937f2e)
+
+- Describe a specified VPC:
+
+```
+aws ec2 describe-vpcs --filters "name=vpc-id, Values=<vpc id>"
+```
+
+- Describe about all Subnets in default region:
+
+```
+aws ec2 describe-subnets
+```
+
+- Describe about Subnets for specified VPC:
+
+```
+aws ec2 describe-subnets --filters="name=vpc-id, Values=<vpc id>"
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/95b8a5c9-4f98-4764-a62f-57047f91c2dd)
+
+- Describe about Route Table :
+
+> The same filter as above can be used to filter based on specified "vpc-id" or "subnet-id". 
+
+```
+aws ec2 describe-route-tables
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/dc52dee3-a574-41f3-9bf8-f7f5647b13de)
+
+- Describe about all Network ACLs :
+
+```
+aws ec2 describe-network-acls
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/554bd7be-0ca3-4205-8820-fc77115c9725)
+
+### Lateral Movement / Pivoting
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/b06d3a55-182e-4209-b509-51c816d44a3a)
+
+> There is at least a read only access required for bellow command.
+
+- Describes all VPC Peering Connections :
+
+```
+aws ec2 describe-vpc-peering-connections
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/bf8f34c8-675a-4557-b09e-22de9c9ebcad)
+
+- Describe about Subnet of the specified VPC :
+
+```
+aws ec2 describe-subnets --filters “Name=vpc-id, Values=<vpc id>”
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/8167f7f3-09ce-404b-a3ce-25c56f5ba36e)
+
+- Describe about Route Table of the specified Subnet :
+
+```
+aws ec2 describe-route-tables --filters “Name=vpc-id, Values=<vpc id>”
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/1f4548bb-2638-42aa-98d8-b090f65de397)
+
+- Describe about Network ACL of the specified VPC :
+
+```
+aws ec2 describe-network-acls --filters “Name=vpc-id, Values=<vpc id>”
+```
+
+- Describe about EC2 Instances In the specified VPC :
+
+```
+aws ec2 describe-instances --filters “Name=vpc-id, Values=<vpc id>”
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/1fef997b-365e-4005-acdc-34b98f36cfe0)
+
+- Describe about EC2 Instances In the specified Subnet:
+
+```
+aws ec2 describe-instances --filters “Name=subnet-id, Values=<subnet id>"
+```
+
+![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/9f08405c-83df-40f0-b64a-70dc856856c8)
+
 .
 .
 .
