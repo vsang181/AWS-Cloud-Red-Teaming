@@ -160,14 +160,6 @@ aws ec2 describe-instances --filters “Name=subnet-id, Values=<subnet id>"
 
 ![image](https://github.com/vsang181/AWS-Cloud-Red-Teaming/assets/28651683/9f08405c-83df-40f0-b64a-70dc856856c8)
 
-.
-.
-.
-.
-.
-.
-_In progress..._
-
 ## Let's Connect
 
 I welcome your insights, feedback, and opportunities for collaboration. Together, we can make the digital world safer, one challenge at a time.
